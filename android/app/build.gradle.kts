@@ -7,10 +7,9 @@ plugins {
 
 android {
     namespace = "com.example.my_planner_pro"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
-    ndkVersion "27.0.12077973"
+    // We are now using specific versions instead of the ones provided by Flutter.
     compileSdkVersion 34
+    ndkVersion "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -44,3 +43,4 @@ android {
 flutter {
     source = "../.."
 }
+
