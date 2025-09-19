@@ -1,3 +1,5 @@
+import com.android.build.gradle.BaseExtension
+
 allprojects {
     repositories {
         google()
@@ -7,7 +9,7 @@ allprojects {
 
 rootProject.buildDir = file("../build")
 subprojects {
-    project.buildDir = File("${rootProject.buildDir}/${project.name}")
+    project.buildDir = file("${rootProject.buildDir}/${project.name}")
 }
 subprojects {
     project.evaluationDependsOn(":app")
@@ -21,10 +23,9 @@ tasks.register("clean", Delete::class) {
 // این بلوک به صورت خودکار به پکیج‌های قدیمی namespace اضافه می‌کند
 subprojects {
     afterEvaluate {
-        if (plugins.hasPlugin("com.android.library") || plugins.hasPlugin("com.android.application")) {
-            android.namespace?.let { } ?: run {
-                android.namespace = "com.example.${name.replace("-", "_")}"
-            }
+        if (project.plugins.hasPlugin("com.android.library") || project.plugins.hasPlugin("com.android.application")) {
+            val android = project.extensions.findByType(BaseExtension::class.java)
+            android?.namespace = android?.namespace ?: "com.example.${project.name.replace("-", "_")}"
         }
     }
 }
