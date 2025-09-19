@@ -28,7 +28,7 @@ dependencies:
 
   # Date formatting
   shamsi_date: ^1.0.1
-  intl: ^0.19.0 # هماهنگ شده با نسخه فلاتر
+  intl: ^0.20.2 # هماهنگ شده با نسخه فلاتر
 
 dev_dependencies:
   flutter_test:
