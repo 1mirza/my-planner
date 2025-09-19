@@ -1,15 +1,15 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
     namespace = "com.example.my_planner_pro"
-    // We are now using specific versions instead of the ones provided by Flutter.
-    compileSdkVersion 34
-    ndkVersion "27.0.12077973"
+    // For Kotlin DSL (.kts files), an equals sign is required for assignments.
+    compileSdkVersion = 34
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -17,7 +17,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "11"
     }
 
     defaultConfig {
@@ -43,4 +43,3 @@ android {
 flutter {
     source = "../.."
 }
-
