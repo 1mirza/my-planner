@@ -28,7 +28,7 @@ dependencies:
   equatable: ^2.0.5
 
   # Date Formatting (نسخه سازگار با Flutter SDK جدید)
-  intl: ^0.20.2
+  intl: ^0.19.0
   shamsi_date: ^1.0.1
 
 
