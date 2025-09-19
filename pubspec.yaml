@@ -9,9 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
   flutter_localizations:
     sdk: flutter
-  
+
   # State Management
   flutter_riverpod: ^2.5.1
 
@@ -26,17 +27,19 @@ dependencies:
   # Models & Equality
   equatable: ^2.0.5
 
-  # Date Formatting
-  intl: 0.20.2
-  shamsi_date: ^1.0.1 # <-- پکیج تاریخ شمسی اضافه شد
+  # Date Formatting (نسخه سازگار با Flutter SDK جدید)
+  intl: ^0.20.2
+  shamsi_date: ^1.0.1
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
-  flutter_lints: ^2.0.0
+
+  flutter_lints: ^3.0.0
   build_runner: ^2.4.8
   isar_generator: ^3.1.0+1
+
 
 flutter:
   uses-material-design: true
