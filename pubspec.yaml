@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   
+  # این خط برای پشتیبانی از زبان فارسی لازم است
   flutter_localizations:
     sdk: flutter
 
@@ -27,19 +28,23 @@ dependencies:
   # Models & Equality
   equatable: ^2.0.5
 
-  # Date Formatting (نسخه سازگار با Flutter SDK جدید)
-  intl: ^0.19.0
+  # تاریخ شمسی
   shamsi_date: ^1.0.1
+
+  # بومی سازی تاریخ (وابسته به flutter_localizations)
+  # نسخه با فلاتر شما هماهنگ شده است
+  intl: ^0.20.2
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^2.0.0
+  
+  # Code Generation
   build_runner: ^2.4.8
   isar_generator: ^3.1.0+1
-
 
 flutter:
   uses-material-design: true
