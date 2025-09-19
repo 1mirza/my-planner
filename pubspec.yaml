@@ -12,23 +12,18 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   
-  # State Management
   flutter_riverpod: ^2.5.1
 
-  # Local Database
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.2
 
-  # Routing
   go_router: ^13.2.0
 
-  # Models & Equality
   equatable: ^2.0.5
 
-  # Date formatting
   shamsi_date: ^1.0.1
-  intl: ^0.20.2 # هماهنگ شده با نسخه فلاتر
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -37,10 +32,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.4.8
   isar_generator: ^3.1.0+1
-
-# بازنویسی وابستگی برای حل مشکل Namespace در اندروید
-dependency_overrides:
-  isar_flutter_libs: 3.1.0+1
 
 flutter:
   uses-material-design: true
