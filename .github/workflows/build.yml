@@ -13,57 +13,83 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # مرحله ۱: دریافت کد منبع از ریپازیتوری
+      # مرحله ۱: دریافت کد منبع
       - name: 'Step 1: Checkout Source Code'
         uses: actions/checkout@v4
 
-      # مرحله ۲: راه‌اندازی Java (مورد نیاز برای ساخت اندروید)
+      # مرحله ۲: راه‌اندازی Java
       - name: 'Step 2: Set up JDK 17'
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # مرحله ۳: راه‌اندازی نسخه صحیح فلاتر
+      # مرحله ۳: راه‌اندازی فلاتر
       - name: 'Step 3: Set up Flutter Environment'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.6' 
+          flutter-version: '3.32.6' # نسخه فلاتر شما
           channel: 'stable'
           cache: true
 
-      # مرحله ۴: دریافت تمام پکیج‌های Dart و فلاتر
+      # مرحله ۴: دریافت پکیج‌ها
       - name: 'Step 4: Get Flutter Dependencies'
-        run: flutter pub get
-
-      # مرحله ۵: ساخت فایل key.properties با استفاده از Secrets
-      - name: 'Step 5: Create Keystore Properties File from Secrets'
         run: |
+          echo " "
+          echo "✅ Step 4: Getting Flutter dependencies..."
+          flutter pub get
+
+      # مرحله ۵: بررسی Secrets و ساخت فایل key.properties
+      - name: 'Step 5: Check Secrets and Create Keystore Properties File'
+        run: |
+          echo " "
+          echo "✅ Step 5: Checking required secrets..."
+          if [ -z "${{ secrets.KEY_ALIAS }}" ] || [ -z "${{ secrets.KEY_PASSWORD }}" ] || [ -z "${{ secrets.KEYSTORE_PASSWORD }}" ]; then
+            echo "❌ ERROR: One or more secrets (KEY_ALIAS, KEY_PASSWORD, KEYSTORE_PASSWORD) are not set."
+            exit 1
+          fi
+          echo "   - All required secrets found. Creating key.properties file..."
           echo "storeFile=../app/upload-keystore.jks" > android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "   - key.properties file created successfully."
 
-      # مرحله ۶: رمزگشایی Secret و ساخت فایل Keystore باینری
+      # مرحله ۶: رمزگشایی و ساخت فایل Keystore
       - name: 'Step 6: Decode Base64 Keystore and Create File'
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+        run: |
+          echo " "
+          echo "✅ Step 6: Decoding Keystore..."
+          if [ -z "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "❌ ERROR: KEYSTORE_BASE64 secret is empty or not set. Please set it manually in GitHub settings."
+            exit 1
+          fi
+          echo "   - KEYSTORE_BASE64 secret found. Decoding and creating JKS file..."
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+          echo "   - JKS file created successfully."
 
-      # مرحله ۷: ساخت App Bundle (فرمت پیشنهادی گوگل‌پلی)
+      # مرحله ۷: ساخت App Bundle
       - name: 'Step 7: Build Android App Bundle (Release)'
-        run: flutter build appbundle --release
+        run: |
+          echo " "
+          echo "✅ Step 7: Building App Bundle..."
+          flutter build appbundle --release
 
       # مرحله ۸: ساخت APK
       - name: 'Step 8: Build Android APK (Release)'
-        run: flutter build apk --release
+        run: |
+          echo " "
+          echo "✅ Step 8: Building APK..."
+          flutter build apk --release
 
-      # مرحله ۹: آپلود فایل App Bundle به عنوان آرتیفکت برای دانلود
+      # مرحله ۹: آپلود App Bundle
       - name: 'Step 9: Upload App Bundle Artifact'
         uses: actions/upload-artifact@v4
         with:
           name: app-release-bundle
           path: build/app/outputs/bundle/release/app-release.aab
 
-      # مرحله ۱۰: آپلود فایل APK به عنوان آرتیفکت برای دانلود
+      # مرحله ۱۰: آپلود APK
       - name: 'Step 10: Upload APK Artifact'
         uses: actions/upload-artifact@v4
         with:
