@@ -9,6 +9,8 @@ android {
     namespace = "com.example.my_planner_pro"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    ndkVersion "27.0.12077973"
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
