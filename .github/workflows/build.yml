@@ -24,13 +24,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # مرحله ۳: راه‌اندازی فلاتر (مهم: این نسخه را با نسخه محلی خود هماهنگ کنید)
+      # مرحله ۳: راه‌اندازی فلاتر (هماهنگ شده با نسخه محلی شما)
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          # --- مهم: این خط را با نسخه فلاتر خودتان جایگزین کنید ---
-          # دستور 'flutter --version' را اجرا کرده و خروجی را اینجا قرار دهید
-          flutter-version: 'YOUR_FLUTTER_VERSION_HERE' 
+          flutter-version: '3.32.6' 
           channel: 'stable'
           cache: true
 
