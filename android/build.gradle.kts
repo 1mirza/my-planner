@@ -5,17 +5,29 @@ allprojects {
     }
 }
 
-val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
-rootProject.layout.buildDirectory.value(newBuildDir)
-
+rootProject.buildDir = '../build'
 subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
 subprojects {
-    project.evaluationDependsOn(":app")
+    project.evaluationDependsOn(':app')
 }
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
 }
+
+// <<< این بخش کلیدی است که باید اضافه شود >>>
+// این بلوک به صورت خودکار به پکیج‌های قدیمی namespace اضافه می‌کند
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                if (namespace == null) {
+                    namespace "com.example.${project.name.replaceAll('-', '_').replaceAll(':', '.')}"
+                }
+            }
+        }
+    }
+}
+
