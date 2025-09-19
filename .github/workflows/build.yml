@@ -14,57 +14,57 @@ jobs:
 
     steps:
       # مرحله ۱: دریافت کد منبع از ریپازیتوری
-      - name: Checkout code
+      - name: 'Step 1: Checkout Source Code'
         uses: actions/checkout@v4
 
       # مرحله ۲: راه‌اندازی Java (مورد نیاز برای ساخت اندروید)
-      - name: Set up JDK 17
+      - name: 'Step 2: Set up JDK 17'
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # مرحله ۳: راه‌اندازی فلاتر (هماهنگ شده با نسخه محلی شما)
-      - name: Set up Flutter
+      # مرحله ۳: راه‌اندازی نسخه صحیح فلاتر
+      - name: 'Step 3: Set up Flutter Environment'
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.6' 
           channel: 'stable'
           cache: true
 
-      # مرحله ۴: دریافت پکیج‌های فلاتر
-      - name: Get Flutter dependencies
+      # مرحله ۴: دریافت تمام پکیج‌های Dart و فلاتر
+      - name: 'Step 4: Get Flutter Dependencies'
         run: flutter pub get
 
-      # مرحله ۵: ساخت فایل key.properties از روی Secrets
-      - name: Create Keystore Properties File
+      # مرحله ۵: ساخت فایل key.properties با استفاده از Secrets
+      - name: 'Step 5: Create Keystore Properties File from Secrets'
         run: |
           echo "storeFile=../app/upload-keystore.jks" > android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
 
-      # مرحله ۶: رمزگشایی و ساخت فایل Keystore
-      - name: Decode Keystore
+      # مرحله ۶: رمزگشایی Secret و ساخت فایل Keystore باینری
+      - name: 'Step 6: Decode Base64 Keystore and Create File'
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
       # مرحله ۷: ساخت App Bundle (فرمت پیشنهادی گوگل‌پلی)
-      - name: Build App Bundle
+      - name: 'Step 7: Build Android App Bundle (Release)'
         run: flutter build appbundle --release
 
       # مرحله ۸: ساخت APK
-      - name: Build APK
+      - name: 'Step 8: Build Android APK (Release)'
         run: flutter build apk --release
 
-      # مرحله ۹: آپلود فایل App Bundle به عنوان آرتیفکت
-      - name: Upload App Bundle
+      # مرحله ۹: آپلود فایل App Bundle به عنوان آرتیفکت برای دانلود
+      - name: 'Step 9: Upload App Bundle Artifact'
         uses: actions/upload-artifact@v4
         with:
           name: app-release-bundle
           path: build/app/outputs/bundle/release/app-release.aab
 
-      # مرحله ۱۰: آپلود فایل APK به عنوان آرتیفکت
-      - name: Upload APK
+      # مرحله ۱۰: آپلود فایل APK به عنوان آرتیفکت برای دانلود
+      - name: 'Step 10: Upload APK Artifact'
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
