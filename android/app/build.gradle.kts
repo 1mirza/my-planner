@@ -7,8 +7,9 @@ plugins {
 
 android {
     namespace = "com.example.my_planner_pro"
-    // For Kotlin DSL (.kts files), an equals sign is required for assignments.
-    compileSdkVersion = 34
+    // Using the modern 'compileSdk' property instead of the older 'compileSdkVersion'
+    // to resolve the type mismatch error.
+    compileSdk = 34
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -43,3 +44,4 @@ android {
 flutter {
     source = "../.."
 }
+
