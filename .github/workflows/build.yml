@@ -28,9 +28,9 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          # دستور 'flutter --version' را در کامپیوتر خود اجرا کرده
-          # و خروجی آن را در اینجا جایگزین کنید. برای مثال: '3.22.2'
-          flutter-version: 'YOUR_FLUTTER_VERSION' 
+          # --- مهم: این خط را با نسخه فلاتر خودتان جایگزین کنید ---
+          # دستور 'flutter --version' را اجرا کرده و خروجی را اینجا قرار دهید
+          flutter-version: 'YOUR_FLUTTER_VERSION_HERE' 
           channel: 'stable'
           cache: true
 
@@ -71,3 +71,4 @@ jobs:
         with:
           name: app-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
