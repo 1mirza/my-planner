@@ -1,4 +1,4 @@
-import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.LibraryExtension
 
 allprojects {
     repositories {
@@ -19,13 +19,12 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-// <<< این بخش کلیدی است که به زبان Kotlin نوشته شده >>>
+// <<< این بخش کلیدی است که با روش صحیح (withId) نوشته شده >>>
 // این بلوک به صورت خودکار به پکیج‌های قدیمی namespace اضافه می‌کند
 subprojects {
-    afterEvaluate {
-        if (project.plugins.hasPlugin("com.android.library") || project.plugins.hasPlugin("com.android.application")) {
-            val android = project.extensions.findByType(BaseExtension::class.java)
-            android?.namespace = android?.namespace ?: "com.example.${project.name.replace("-", "_")}"
+    plugins.withId("com.android.library") {
+        extensions.findByType(LibraryExtension::class.java)?.apply {
+            namespace = namespace ?: "com.example.${project.name.replace("-", "_")}"
         }
     }
 }
