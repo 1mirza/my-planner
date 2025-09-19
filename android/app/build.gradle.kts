@@ -7,9 +7,8 @@ plugins {
 
 android {
     namespace = "com.example.my_planner_pro"
-    // Using the modern 'compileSdk' property instead of the older 'compileSdkVersion'
-    // to resolve the type mismatch error.
-    compileSdk = 34
+    // Updated to 35 as required by the path_provider_android plugin.
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
